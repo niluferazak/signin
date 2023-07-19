@@ -24,12 +24,13 @@ const Social = () => {
           <label>
             <h4>AngelList</h4>
           </label>
-          <input type="text" placeholder="angel.co/company/example" />
+          <input type="text"
+           placeholder="angel.co/company/example" />
 
           <label>
             <h4>LinkedIn </h4>
           </label>
-          <input type="text" placeholder="linkedin.com/company/example" />
+          <input type="text" placeholder=" linkedin.com/company/example" />
         </form>
       </div>
         <div className="button">

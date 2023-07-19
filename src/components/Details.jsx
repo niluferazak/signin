@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import "./Details.css";
 import { useNavigate } from "react-router-dom";
+import Validation from "./Validation";
+import "./Details.css";
 import flag from "./assets/flag.svg";
 import google from "./assets/Logo icon/google.png";
-import Validation from "./Validation";
 
 const Details = () => {
   const [values, setValues] = useState({
@@ -11,36 +11,32 @@ const Details = () => {
     lastName: "",
     email: "",
   });
-
   const [errors, setErrors] = useState({});
-
-  function handleInput(event) {
-    const newObj = { ...values, [event.target.name]: event.target.values };
-    setValues(newObj);
-  }
-
+  const handleInput = (event) => {
+    const { name, value } = event.target;
+    setValues((prevValues) => ({ ...prevValues, [name]: value }));
+  };
   const submitHandler = (event) => {
     event.preventDefault();
-    setErrors(Validation(values));
+    const formErrors = Validation(values);
+    setErrors(formErrors);
+    if (Object.keys(formErrors).length === 0) {
+      navigate("/password");
+    }
   };
-
   const navigate = useNavigate();
   return (
     <div className="detail">
       <img src={flag} alt="flag" />
-      <h1>Your details</h1>
-      <div className="div1">Please provide your name and email.</div>
+      <h1>Your details</h1> <div>Please provide your name and email.</div>
       <button className="btn1">
-        {" "}
         <img src={google} alt="google" /> Sign up with Google
       </button>
-
       <div className="div2">-------------OR--------------</div>
-
       <div className="form">
         <form onSubmit={submitHandler}>
           <label>
-            <h4>First name* </h4>
+            <h4>First name*</h4>
           </label>
           <input
             type="text"
@@ -48,23 +44,21 @@ const Details = () => {
             name="firstName"
             onChange={handleInput}
           />
-          {errors.firstName && 
+          {errors.firstName && (
             <p style={{ color: "red" }}>{errors.firstName}</p>
-          }
-
+          )}
           <label>
-            <h4>Last name* </h4>
+            <h4>Last name*</h4>
           </label>
           <input
             type="text"
             placeholder="Enter your Last name"
-            name="lastname"
+            name="lastName"
             onChange={handleInput}
           />
           {errors.lastName && <p style={{ color: "red" }}>{errors.lastName}</p>}
-
           <label>
-            <h4>Email* </h4>
+            <h4>Email*</h4>
           </label>
           <input
             type="email"
@@ -73,19 +67,12 @@ const Details = () => {
             onChange={handleInput}
           />
           {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
+          <div className="button">
+            <button className="btn2">Continue</button>
+          </div>
         </form>
-      </div>
-      <div className="button">
-        <button
-          type="submit"
-          className="btn2"
-          onClick={() => navigate("/password")}
-        >
-          Continue
-        </button>
       </div>
     </div>
   );
 };
-
 export default Details;
